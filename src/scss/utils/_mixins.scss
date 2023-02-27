@@ -1,0 +1,12 @@
+@import "variables";
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin list-container {
+  min-height: 100vh;
+  background-color: $white;
+  border-radius: 5px 5px 0 0;
+}

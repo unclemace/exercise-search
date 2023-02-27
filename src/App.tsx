@@ -1,26 +1,60 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+
+import './scss/_main.scss';
+
+//components
+import ExerciseList from "./components/exercise-list";
+
+//containers
+import { FilterContainer } from './containers/filterContainer';
+
+
+import {EquipmentType, IExercise, MuscleGroupType} from "./types/types";
+import {ExercisesContainer} from "./containers/exercisesContainer";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const exercises: IExercise[] = [
+        {
+            name: 'Pull up',
+            description: 'Pull-ups are a functional bodyweight exercise that is great for building upper-body strength',
+            imageSrc: 'https://static.strengthlevel.com/images/illustrations/pull-ups-1000x1000.jpg',
+            requiredEquipment: 'horizontal bar',
+            muscleGroup: ['back', 'biceps', 'shoulders']
+        },
+        {
+            name: 'Pull up',
+            description: 'Pull-ups are a functional bodyweight exercise that is great for building upper-body strength',
+            imageSrc: 'https://static.strengthlevel.com/images/illustrations/pull-ups-1000x1000.jpg',
+            requiredEquipment: 'body only',
+            muscleGroup: ['back', 'biceps', 'shoulders']
+        },
+        {
+            name: 'Pull up',
+            description: 'Pull-ups are a functional bodyweight exercise that is great for building upper-body strength',
+            imageSrc: 'https://static.strengthlevel.com/images/illustrations/pull-ups-1000x1000.jpg',
+            requiredEquipment: 'kettlebells',
+            muscleGroup: ['back', 'biceps', 'shoulders']
+        },
+        {
+            name: 'Pull up',
+            description: 'Pull-ups are a functional bodyweight exercise that is great for building upper-body strength',
+            imageSrc: 'https://static.strengthlevel.com/images/illustrations/pull-ups-1000x1000.jpg',
+            requiredEquipment: 'bands',
+            muscleGroup: ['back', 'biceps', 'shoulders']
+        }
+    ]
+    const equipment: EquipmentType[] = ['body only', 'bands', 'kettlebells', 'horizontal bar'];
+    const muscleGroups: MuscleGroupType[] = ['back', 'biceps', 'triceps', 'legs', 'chest','shoulders'];
+    return (
+        <div className="App">
+          <section className='section section-desktop'>
+              <FilterContainer muscleGroups={muscleGroups} equipment={equipment}/>
+              <ExercisesContainer exercises={exercises}/>
+          </section>
+        </div>
+    );
 }
 
 export default App;

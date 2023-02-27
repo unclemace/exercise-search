@@ -1,0 +1,29 @@
+@import "../utils/variables";
+* {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  -webkit-text-size-adjust:none;
+  min-height:100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: scroll;
+  min-height: 100%;
+  background-color: $blue;
+}
+
+div#root {
+  height: 100vh;
+}
+
+ul {
+  list-style-type: none;
+}

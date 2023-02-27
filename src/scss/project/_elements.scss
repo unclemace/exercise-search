@@ -1,0 +1,43 @@
+@import '../utils/_variables.scss';
+@import "../utils/mixins";
+
+.exercises {
+  &__container {
+    @include list-container;
+  }
+  &__list {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  &__item {
+    display: grid;
+
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+    img {
+      width: 100px;
+      height: 100px;
+    }
+  }
+}
+
+.filter {
+  &__container {
+    @include list-container;
+    @include flex-column;
+    gap: 30px;
+  }
+
+  &__list {
+    @include flex-column;
+
+  }
+
+  &__item {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
