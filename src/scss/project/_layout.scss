@@ -9,7 +9,7 @@
   }
 }
 
-.equipment {
+.filter {
   @media (min-width: $laptop) {
     @include flex-column;
     gap: 15px;

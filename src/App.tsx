@@ -19,21 +19,21 @@ function App() {
             muscleGroup: ['back', 'biceps']
         },
         {
-            name: 'Pull up',
+            name: 'Push up',
             description: 'Pull-ups are a functional bodyweight exercise that is great for building upper-body strength',
             imageSrc: 'https://static.strengthlevel.com/images/illustrations/pull-ups-1000x1000.jpg',
             requiredEquipment: 'body only',
             muscleGroup: ['shoulders']
         },
         {
-            name: 'Pull up',
+            name: 'Bench press',
             description: 'Pull-ups are a functional bodyweight exercise that is great for building upper-body strength',
             imageSrc: 'https://static.strengthlevel.com/images/illustrations/pull-ups-1000x1000.jpg',
             requiredEquipment: 'kettlebells',
             muscleGroup: ['legs', 'chest' ]
         },
         {
-            name: 'Pull up',
+            name: 'Dead lift',
             description: 'Pull-ups are a functional bodyweight exercise that is great for building upper-body strength',
             imageSrc: 'https://static.strengthlevel.com/images/illustrations/pull-ups-1000x1000.jpg',
             requiredEquipment: 'bands',

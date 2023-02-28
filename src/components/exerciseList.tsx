@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {EquipmentType, IExercise} from "../types/types";
-import ExerciseCard from './exercise-card';
+import ExerciseCard from './exerciseCard';
 
 interface ExercisesListProps {
     exercises: IExercise[];

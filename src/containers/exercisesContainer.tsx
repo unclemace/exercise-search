@@ -1,9 +1,10 @@
-import React, { FC, useEffect } from "react";
+import React, {FC, useEffect, useRef, useState} from "react";
 import { useAppSelector } from "../hooks/hooks";
 import {EquipmentType, IExercise, isEquipment, MuscleGroupType} from "../types/types";
 import { selectEquipment, selectMuscleGroup } from "../store/slices/filterSlice";
-import ExerciseList from "../components/exercise-list";
-import exerciseList from "../components/exercise-list";
+import ExerciseList from "../components/exerciseList";
+import exerciseList from "../components/exerciseList";
+import {SearchBar} from "../components/searchBar";
 
 interface ExercisesContainerProps {
     exercises: IExercise[];
@@ -11,6 +12,7 @@ interface ExercisesContainerProps {
 export const ExercisesContainer:FC<ExercisesContainerProps> = ({exercises}) => {
     const chosenEquipment = useAppSelector(selectEquipment);
     const chosenMuscleGroup = useAppSelector(selectMuscleGroup);
+    const [filteredExercises, setFilteredExercises] = useState(exercises);
     const filterByEquipment = (exercises: IExercise[], chosenEquipment: EquipmentType[]) => {
         return exercises.filter((exercise) => {
             if (chosenEquipment.length === 0) {
@@ -39,21 +41,30 @@ export const ExercisesContainer:FC<ExercisesContainerProps> = ({exercises}) => {
         return filteredByMuscleGroup;
 
     }
+    const handleSearchChange = (input: string) => {
+        if (input.length === 0) {
+            return setFilteredExercises(filterExercises(chosenEquipment, chosenMuscleGroup ))
+        }
+        const editedInput = input.toLowerCase();
+        const matchedExercises = filteredExercises.filter(exercise => {
+            return exercise.name.toLowerCase().startsWith(editedInput);
+        })
+        return setFilteredExercises(matchedExercises);
+    }
 
-    const filteredExercises = filterExercises(chosenEquipment, chosenMuscleGroup );
+    useEffect(() => {
+        setFilteredExercises(filterExercises(chosenEquipment, chosenMuscleGroup ))
+    }, [chosenEquipment, chosenMuscleGroup]);
 
     return (
-        <div className='exercises'>
+        <section className='exercises'>
             <header>
                 <h2>Exercise Search</h2>
-                <div className='searchbar-container'>
-                    <input type='text' placeholder='Find exercise' className='exercises__search-bar'/>
-                    <i></i>
-                </div>
+                <SearchBar placeholder={'Search Exercises'} onInputChange={handleSearchChange}/>
             </header>
             <div className='exercises__container'>
                 <ExerciseList exercises={filteredExercises}/>
             </div>
-        </div>
+        </section>
     )
 }

@@ -1,6 +1,6 @@
-import React, {FC, useEffect} from "react";
+import React, {FC, useState} from "react";
 import { useAppDispatch,  useAppSelector } from "../hooks/hooks";
-import { FilterList } from "../components/equipment-list";
+import { FilterList } from "../components/filterList";
 import {EquipmentType, MuscleGroupType, isEquipment, isMuscleGroup} from "../types/types";
 import { addEquipment, removeEquipment, addMuscleGroup, removeMuscleGroup, selectEquipment, selectMuscleGroup } from "../store/slices/filterSlice";
 
@@ -13,6 +13,7 @@ export const FilterContainer: FC<FilterContainerProps> = ({equipment, muscleGrou
     const dispatch = useAppDispatch();
     const equipmentState = useAppSelector(selectEquipment);
     const muscleGroupState = useAppSelector(selectMuscleGroup);
+    const [searchInput, setSearchInput] = useState('');
 
     const handleFilterClick = (filterChosen: EquipmentType | MuscleGroupType) => {
         if (isEquipment(filterChosen)) {
@@ -36,18 +37,14 @@ export const FilterContainer: FC<FilterContainerProps> = ({equipment, muscleGrou
     }
 
     return (
-         <div className='filter'>
+         <section className='filter'>
             <header>
               <h2>Equipment selection</h2>
-              <div className='searchbar-container'>
-                <input type='text'  placeholder='Find equipment' className='equipment__search-bar'/>
-                <i></i>
-              </div>
             </header>
             <div className='filter__container'>
               <FilterList onFilterClick={handleFilterClick} filterList={equipment}/>
               <FilterList onFilterClick={handleFilterClick} filterList={muscleGroups}/>
             </div>
-         </div>
+         </section>
     )
 };

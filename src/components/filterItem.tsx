@@ -8,6 +8,8 @@ interface FilterItemProps {
 
 export const FilterItem:FC<FilterItemProps> = ({filterItem, onFilterClick}) => {
     return (
-        <li className='filter__item' onClick={() => onFilterClick(filterItem)}>{filterItem}</li>
+        <li className='filter__item' onClick={() => onFilterClick(filterItem)}>
+           <span>{filterItem}</span>
+        </li>
     );
 }
