@@ -1,7 +1,7 @@
 import React, {FC, useEffect} from "react";
 import { useAppDispatch,  useAppSelector } from "../hooks/hooks";
 import { FilterList } from "../components/equipment-list";
-import {EquipmentType, MuscleGroupType} from "../types/types";
+import {EquipmentType, MuscleGroupType, isEquipment, isMuscleGroup} from "../types/types";
 import { addEquipment, removeEquipment, addMuscleGroup, removeMuscleGroup, selectEquipment, selectMuscleGroup } from "../store/slices/filterSlice";
 
 interface FilterContainerProps {
@@ -33,15 +33,6 @@ export const FilterContainer: FC<FilterContainerProps> = ({equipment, muscleGrou
                 dispatch(addMuscleGroup(filterChosen));
             }
         }
-    }
-
-    const isEquipment = (filter: string): filter is EquipmentType => {
-        const equipmentList = ['body only', 'bands', 'kettlebells', 'horizontal bar'];
-        return equipmentList.indexOf(filter) !== -1;
-    }
-    const isMuscleGroup = (filter: string): filter is MuscleGroupType => {
-        const muscleGroupList = ['back', 'biceps', 'triceps', 'legs', 'chest','shoulders'];
-        return muscleGroupList.indexOf(filter) !== -1;
     }
 
     return (

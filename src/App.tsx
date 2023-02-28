@@ -2,15 +2,10 @@ import React from 'react';
 import logo from './logo.svg';
 
 import './scss/_main.scss';
-
-//components
-import ExerciseList from "./components/exercise-list";
+import {EquipmentType, IExercise, MuscleGroupType} from "./types/types";
 
 //containers
 import { FilterContainer } from './containers/filterContainer';
-
-
-import {EquipmentType, IExercise, MuscleGroupType} from "./types/types";
 import {ExercisesContainer} from "./containers/exercisesContainer";
 
 
@@ -21,28 +16,28 @@ function App() {
             description: 'Pull-ups are a functional bodyweight exercise that is great for building upper-body strength',
             imageSrc: 'https://static.strengthlevel.com/images/illustrations/pull-ups-1000x1000.jpg',
             requiredEquipment: 'horizontal bar',
-            muscleGroup: ['back', 'biceps', 'shoulders']
+            muscleGroup: ['back', 'biceps']
         },
         {
             name: 'Pull up',
             description: 'Pull-ups are a functional bodyweight exercise that is great for building upper-body strength',
             imageSrc: 'https://static.strengthlevel.com/images/illustrations/pull-ups-1000x1000.jpg',
             requiredEquipment: 'body only',
-            muscleGroup: ['back', 'biceps', 'shoulders']
+            muscleGroup: ['shoulders']
         },
         {
             name: 'Pull up',
             description: 'Pull-ups are a functional bodyweight exercise that is great for building upper-body strength',
             imageSrc: 'https://static.strengthlevel.com/images/illustrations/pull-ups-1000x1000.jpg',
             requiredEquipment: 'kettlebells',
-            muscleGroup: ['back', 'biceps', 'shoulders']
+            muscleGroup: ['legs', 'chest' ]
         },
         {
             name: 'Pull up',
             description: 'Pull-ups are a functional bodyweight exercise that is great for building upper-body strength',
             imageSrc: 'https://static.strengthlevel.com/images/illustrations/pull-ups-1000x1000.jpg',
             requiredEquipment: 'bands',
-            muscleGroup: ['back', 'biceps', 'shoulders']
+            muscleGroup: ['legs', 'triceps']
         }
     ]
     const equipment: EquipmentType[] = ['body only', 'bands', 'kettlebells', 'horizontal bar'];
