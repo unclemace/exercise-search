@@ -15,11 +15,6 @@ export const ExercisesContainer:FC<ExercisesContainerProps> = () => {
     const visibleExercises = (exercises: IExercise[]) => {
         return exercises.filter(exercise => exercise.visible);
     }
-
-    useEffect(() => {
-        setFilteredExercises(visibleExercises(exercises));
-    }, [exercises])
-
     const handleSearchChange = (input: string) => {
         if (input.length === 0) {
             return setFilteredExercises(visibleExercises(exercises));
@@ -32,6 +27,10 @@ export const ExercisesContainer:FC<ExercisesContainerProps> = () => {
             return setFilteredExercises(matchedExercises);
         }
     }
+
+    useEffect(() => {
+        setFilteredExercises(visibleExercises(exercises));
+    }, [exercises])
 
     return (
         <section className='exercises'>

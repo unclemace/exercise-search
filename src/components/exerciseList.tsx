@@ -1,5 +1,5 @@
-import React, {FC} from 'react';
-import {EquipmentType, IExercise} from "../types/types";
+import React, { FC } from 'react';
+import { IExercise } from '../types/types';
 import ExerciseCard from './exerciseCard';
 
 interface ExercisesListProps {

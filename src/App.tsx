@@ -2,7 +2,7 @@ import React from 'react';
 import './scss/_main.scss';
 
 //types
-import { IFilter } from "./types/types";
+import { IFilter } from './types/types';
 
 //containers
 import { FilterContainer } from './containers/filterContainer';

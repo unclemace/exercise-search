@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {FilterItem} from './filterItem';
-import {EquipmentType, IFilter, MuscleGroupType} from "../types/types";
+import { IFilter } from "../types/types";
 
 interface FilterListProps {
     filterList: IFilter[];

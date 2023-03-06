@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { FilterList } from '../components/filterList';
 import { IFilter } from '../types/types';
-import {addFilter, removeFilter, selectChosenFilters, selectExercises} from '../store/slices/exercisesSlice'
+import { addFilter, removeFilter, selectChosenFilters } from '../store/slices/exercisesSlice'
 
 interface FilterContainerProps {
     filters: IFilter[]
@@ -10,7 +10,6 @@ interface FilterContainerProps {
 
 export const FilterContainer: FC<FilterContainerProps> = ({filters}) => {
     const dispatch = useAppDispatch();
-    const exercises = useAppSelector(selectExercises);
     const chosenFilters = useAppSelector(selectChosenFilters);
     const defineUniqueFilterGroups = (filters: IFilter[]) => {
         let uniqueGroup: string[] = [];
