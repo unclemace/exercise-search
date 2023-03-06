@@ -4,16 +4,12 @@ import { IFilter } from '../types/types';
 interface FilterItemProps {
     filterItem: IFilter;
     onFilterClick: (filter: IFilter) => void
+    isFilterChosen: (filter: IFilter) => boolean;
 }
 
-export const FilterItem:FC<FilterItemProps> = ({filterItem, onFilterClick}) => {
-    const handleFilterClick = (filterItem: IFilter, event: React.MouseEvent<HTMLLIElement>) => {
-        onFilterClick(filterItem);
-        event.currentTarget.classList.toggle('active');
-
-    }
+export const FilterItem:FC<FilterItemProps> = ({filterItem, onFilterClick, isFilterChosen}) => {
     return (
-        <li className='filter__item' onClick={(e) => handleFilterClick(filterItem, e)}>
+        <li className='filter__item' onClick={() => onFilterClick(filterItem)}>
            <span>{filterItem.name}</span>
         </li>
     );

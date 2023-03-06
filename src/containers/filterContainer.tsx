@@ -1,8 +1,9 @@
-import React, { FC } from 'react';
+import React, {FC, useEffect} from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { FilterList } from '../components/filterList';
 import { IFilter } from '../types/types';
 import { addFilter, removeFilter, selectChosenFilters } from '../store/slices/exercisesSlice'
+import { useSearchParams } from 'react-router-dom';
 
 interface FilterContainerProps {
     filters: IFilter[]
@@ -10,7 +11,10 @@ interface FilterContainerProps {
 
 export const FilterContainer: FC<FilterContainerProps> = ({filters}) => {
     const dispatch = useAppDispatch();
+    const [filterSearchParams, setFilterSearchParams] = useSearchParams();
     const chosenFilters = useAppSelector(selectChosenFilters);
+
+    const isFilterChosen = (filter: IFilter) => chosenFilters.indexOf(filter) > -1;
     const defineUniqueFilterGroups = (filters: IFilter[]) => {
         let uniqueGroup: string[] = [];
         filters.forEach(item => {
@@ -29,8 +33,7 @@ export const FilterContainer: FC<FilterContainerProps> = ({filters}) => {
     }
 
     const layers = defineUniqueFilterGroups(filters);
-    const sortedFilters = sortByGroup(filters, layers)
-
+    const sortedFilters = sortByGroup(filters, layers);
     const handleFilterClick = (filterChosen: IFilter) => {
         const filterFound = chosenFilters.find(filter => {
             return filter.filterGroup === filterChosen.filterGroup && filter.name === filterChosen.name;
@@ -42,6 +45,34 @@ export const FilterContainer: FC<FilterContainerProps> = ({filters}) => {
             dispatch(addFilter(filterChosen));
         }
     }
+    const updateFilterSearchParams = (chosenFilters: IFilter[]) => {
+        const params = new URLSearchParams();
+        chosenFilters.forEach(chosenFilter => {
+            params.append(chosenFilter.filterGroup, chosenFilter.name);
+        })
+        setFilterSearchParams(params);
+    }
+
+    useEffect(() => {
+        updateFilterSearchParams(chosenFilters);
+    }, [chosenFilters])
+
+    useEffect(() => {
+        const equipmentFilters = filterSearchParams.getAll('Equipment');
+        const muscleGroupFilters = filterSearchParams.getAll('Muscle group');
+        equipmentFilters.forEach(filter => {
+            dispatch(addFilter({
+                filterGroup: 'Equipment',
+                name: filter
+            }))
+        })
+        muscleGroupFilters.forEach(filter => {
+            dispatch(addFilter({
+                filterGroup: 'Muscle group',
+                name: filter
+            }))
+        })
+    }, [])
 
     return (
          <section className='filter'>
@@ -51,7 +82,7 @@ export const FilterContainer: FC<FilterContainerProps> = ({filters}) => {
             <div className='filter__container'>
                 {
                     sortedFilters.map((filtersList, count) => {
-                        return <FilterList key={count} filterList={filtersList} onFilterClick={handleFilterClick}/>
+                        return <FilterList isFilterChosen={isFilterChosen} key={count} filterList={filtersList} onFilterClick={handleFilterClick}/>
                     })
                 }
             </div>
