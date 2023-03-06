@@ -1,15 +1,20 @@
 import React, {FC} from 'react';
-import {EquipmentType, MuscleGroupType} from '../types/types';
+import { IFilter } from '../types/types';
 
 interface FilterItemProps {
-    filterItem: EquipmentType | MuscleGroupType;
-    onFilterClick: (filter: EquipmentType | MuscleGroupType) => void
+    filterItem: IFilter;
+    onFilterClick: (filter: IFilter) => void
 }
 
 export const FilterItem:FC<FilterItemProps> = ({filterItem, onFilterClick}) => {
+    const handleFilterClick = (filterItem: IFilter, event: React.MouseEvent<HTMLLIElement>) => {
+        onFilterClick(filterItem);
+        event.currentTarget.classList.toggle('active');
+
+    }
     return (
-        <li className='filter__item' onClick={() => onFilterClick(filterItem)}>
-           <span>{filterItem}</span>
+        <li className='filter__item' onClick={(e) => handleFilterClick(filterItem, e)}>
+           <span>{filterItem.name}</span>
         </li>
     );
 }

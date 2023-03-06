@@ -2,11 +2,17 @@ export interface IExercise {
     name: string;
     description: string;
     imageSrc: string;
-    requiredEquipment: EquipmentType;
-    muscleGroup: MuscleGroupType[];
+    requiredEquipment: string;
+    muscleGroup: string[];
+    visible: boolean;
 }
 
+export interface IFilter {
+    name: string;
+    filterGroup: FilterGroup;
+}
 
+export type FilterGroup = 'Equipment' | 'Muscle group';
 
 export type MuscleGroupType = 'back' | 'biceps' | 'triceps' | 'legs' | 'chest' | 'shoulders';
 

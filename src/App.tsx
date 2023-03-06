@@ -1,52 +1,64 @@
 import React from 'react';
-import logo from './logo.svg';
-
 import './scss/_main.scss';
-import {EquipmentType, IExercise, MuscleGroupType} from "./types/types";
+
+//types
+import { IFilter } from "./types/types";
 
 //containers
 import { FilterContainer } from './containers/filterContainer';
-import {ExercisesContainer} from "./containers/exercisesContainer";
+import { ExercisesContainer } from './containers/exercisesContainer';
 
 
 function App() {
-    const exercises: IExercise[] = [
+    const filters: IFilter[] =  [
         {
-            name: 'Pull up',
-            description: 'Pull-ups are a functional bodyweight exercise that is great for building upper-body strength',
-            imageSrc: 'https://static.strengthlevel.com/images/illustrations/pull-ups-1000x1000.jpg',
-            requiredEquipment: 'horizontal bar',
-            muscleGroup: ['back', 'biceps']
+            name: 'body only',
+            filterGroup: 'Equipment'
         },
         {
-            name: 'Push up',
-            description: 'Pull-ups are a functional bodyweight exercise that is great for building upper-body strength',
-            imageSrc: 'https://static.strengthlevel.com/images/illustrations/pull-ups-1000x1000.jpg',
-            requiredEquipment: 'body only',
-            muscleGroup: ['shoulders']
+            name: 'bands',
+            filterGroup: 'Equipment'
         },
         {
-            name: 'Bench press',
-            description: 'Pull-ups are a functional bodyweight exercise that is great for building upper-body strength',
-            imageSrc: 'https://static.strengthlevel.com/images/illustrations/pull-ups-1000x1000.jpg',
-            requiredEquipment: 'kettlebells',
-            muscleGroup: ['legs', 'chest' ]
+            name: 'kettlebells',
+            filterGroup: 'Equipment'
         },
         {
-            name: 'Dead lift',
-            description: 'Pull-ups are a functional bodyweight exercise that is great for building upper-body strength',
-            imageSrc: 'https://static.strengthlevel.com/images/illustrations/pull-ups-1000x1000.jpg',
-            requiredEquipment: 'bands',
-            muscleGroup: ['legs', 'triceps']
-        }
+            name: 'horizontal bar',
+            filterGroup: 'Equipment'
+        },
+        {
+            name: 'back',
+            filterGroup: 'Muscle group'
+        },
+        {
+            name: 'biceps',
+            filterGroup: 'Muscle group'
+        },
+        {
+            name: 'triceps',
+            filterGroup: 'Muscle group'
+        },
+        {
+            name: 'legs',
+            filterGroup: 'Muscle group'
+        },
+        {
+            name: 'chest',
+            filterGroup: 'Muscle group'
+        },
+        {
+            name: 'shoulders',
+            filterGroup: 'Muscle group'
+        },
+
+
     ]
-    const equipment: EquipmentType[] = ['body only', 'bands', 'kettlebells', 'horizontal bar'];
-    const muscleGroups: MuscleGroupType[] = ['back', 'biceps', 'triceps', 'legs', 'chest','shoulders'];
     return (
         <div className="App">
           <section className='section section-desktop'>
-              <FilterContainer muscleGroups={muscleGroups} equipment={equipment}/>
-              <ExercisesContainer exercises={exercises}/>
+              <FilterContainer filters={filters}/>
+              <ExercisesContainer/>
           </section>
         </div>
     );

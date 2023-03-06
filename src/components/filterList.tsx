@@ -1,19 +1,22 @@
 import React, {FC} from 'react';
 import {FilterItem} from './filterItem';
-import {EquipmentType, MuscleGroupType} from "../types/types";
+import {EquipmentType, IFilter, MuscleGroupType} from "../types/types";
 
 interface FilterListProps {
-    filterList: EquipmentType[] | MuscleGroupType[];
-    onFilterClick: (filter: EquipmentType | MuscleGroupType) => void
+    filterList: IFilter[];
+    onFilterClick: (filter: IFilter) => void
 
 }
 
 export const FilterList:FC<FilterListProps> = ({filterList, onFilterClick}) => {
     return (
-        <ul className='filter__list'>
-            {filterList.map((filterItem, count) => {
-                return <FilterItem key={count} onFilterClick={onFilterClick} filterItem={filterItem}/>
-            })}
-        </ul>
+        <>
+            <h3>{filterList[0].filterGroup}</h3>
+            <ul className='filter__list'>
+                {filterList.map((filterItem, count) => {
+                    return <FilterItem key={count} onFilterClick={onFilterClick} filterItem={filterItem}/>
+                })}
+            </ul>
+        </>
     )
 }

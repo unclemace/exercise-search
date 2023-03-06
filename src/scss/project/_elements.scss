@@ -39,5 +39,8 @@
     &:hover {
       cursor: pointer;
     }
+    &.active {
+      background-color: rebeccapurple;
+    }
   }
 }

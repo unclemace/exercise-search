@@ -1,60 +1,37 @@
-import React, {FC, useEffect, useRef, useState} from "react";
-import { useAppSelector } from "../hooks/hooks";
-import {EquipmentType, IExercise, isEquipment, MuscleGroupType} from "../types/types";
-import { selectEquipment, selectMuscleGroup } from "../store/slices/filterSlice";
-import ExerciseList from "../components/exerciseList";
-import exerciseList from "../components/exerciseList";
-import {SearchBar} from "../components/searchBar";
+import React, {FC, useEffect, useState} from 'react';
+import { useAppSelector } from '../hooks/hooks';
+
+import ExerciseList from '../components/exerciseList';
+import { SearchBar } from '../components/searchBar';
+import { selectExercises } from '../store/slices/exercisesSlice';
+import { IExercise } from '../types/types';
 
 interface ExercisesContainerProps {
-    exercises: IExercise[];
+
 }
-export const ExercisesContainer:FC<ExercisesContainerProps> = ({exercises}) => {
-    const chosenEquipment = useAppSelector(selectEquipment);
-    const chosenMuscleGroup = useAppSelector(selectMuscleGroup);
+export const ExercisesContainer:FC<ExercisesContainerProps> = () => {
+    const exercises = useAppSelector(selectExercises);
     const [filteredExercises, setFilteredExercises] = useState(exercises);
-    const filterByEquipment = (exercises: IExercise[], chosenEquipment: EquipmentType[]) => {
-        return exercises.filter((exercise) => {
-            if (chosenEquipment.length === 0) {
-                return exercises;
-            }
-            else  {
-                return chosenEquipment.indexOf(exercise.requiredEquipment) !== -1
-            }
-        })
-
-    }
-    const filterByMuscleGroup = (exercises: IExercise[], chosenMuscleGroup: MuscleGroupType[]) => {
-        if( chosenMuscleGroup.length === 0) {
-            return exercises;
-        }
-        else {
-            return exercises.filter(exercise => {
-                console.log(chosenMuscleGroup.every(group => exercise.muscleGroup.includes(group)));
-                return chosenMuscleGroup.every(group => exercise.muscleGroup.includes(group))
-            })
-        }
-    }
-    const filterExercises = (equipment:EquipmentType[], muscleGroup: MuscleGroupType[]) => {
-        const filteredByEquipment = filterByEquipment(exercises, equipment);
-        const filteredByMuscleGroup = filterByMuscleGroup(filteredByEquipment, muscleGroup);
-        return filteredByMuscleGroup;
-
-    }
-    const handleSearchChange = (input: string) => {
-        if (input.length === 0) {
-            return setFilteredExercises(filterExercises(chosenEquipment, chosenMuscleGroup ))
-        }
-        const editedInput = input.toLowerCase();
-        const matchedExercises = filteredExercises.filter(exercise => {
-            return exercise.name.toLowerCase().startsWith(editedInput);
-        })
-        return setFilteredExercises(matchedExercises);
+    const visibleExercises = (exercises: IExercise[]) => {
+        return exercises.filter(exercise => exercise.visible);
     }
 
     useEffect(() => {
-        setFilteredExercises(filterExercises(chosenEquipment, chosenMuscleGroup ))
-    }, [chosenEquipment, chosenMuscleGroup]);
+        setFilteredExercises(visibleExercises(exercises));
+    }, [exercises])
+
+    const handleSearchChange = (input: string) => {
+        if (input.length === 0) {
+            return setFilteredExercises(visibleExercises(exercises));
+        }
+        else {
+            const editedInput = input.toLowerCase();
+            const matchedExercises = visibleExercises(exercises).filter(exercise => {
+                return exercise.name.toLowerCase().startsWith(editedInput)
+            })
+            return setFilteredExercises(matchedExercises);
+        }
+    }
 
     return (
         <section className='exercises'>
