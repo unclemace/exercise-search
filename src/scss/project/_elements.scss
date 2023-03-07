@@ -28,19 +28,32 @@
     @include list-container;
     @include flex-column;
     gap: 30px;
+    padding: 20px;
   }
 
   &__list {
-    @include flex-column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 15px 20px;
+  }
 
+  &__list-item {
+    @include flex-column;
+    gap: 15px;
+    padding: 20px 15px;
+    box-shadow: 0 8px 12px 0 #eaeaea;
   }
 
   &__item {
+    padding: 5px;
+    border-radius: 10px;
+    background-color: rgba(181,191,200,.2);
     &:hover {
       cursor: pointer;
     }
     &.active {
-      background-color: rebeccapurple;
+      color: $white;
+      background-color: invert($background-light);
     }
   }
 }
@@ -63,6 +76,12 @@
     border-radius: 5px;
     outline: none;
   }
+}
+
+.separator {
+  height: 1px;
+  background-color: hsla(0, 0%, 59.2%, 0.2);
+  width: 100%;
 }
 
 header {

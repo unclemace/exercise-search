@@ -86,7 +86,7 @@ export const FilterContainer: FC<FilterContainerProps> = ({filters}) => {
     return (
          <section className='filter'>
             <header>
-              <h2>Equipment selection</h2>
+              <h2>Filters</h2>
             </header>
             <section className='filter__container'>
                 {
