@@ -9,7 +9,7 @@ interface FilterListProps {
 
 }
 
-export const FilterList:FC<FilterListProps> = ({filterList, onFilterClick, isFilterChosen}) => {
+export const FilterList:FC<FilterListProps> = ({ filterList, onFilterClick, isFilterChosen }) => {
     return (
         <>
             <h3>{filterList[0].filterGroup}</h3>

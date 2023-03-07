@@ -14,7 +14,16 @@ export const FilterContainer: FC<FilterContainerProps> = ({filters}) => {
     const [filterSearchParams, setFilterSearchParams] = useSearchParams();
     const chosenFilters = useAppSelector(selectChosenFilters);
 
-    const isFilterChosen = (filter: IFilter) => chosenFilters.indexOf(filter) > -1;
+    const isFilterChosen = (filterItem: IFilter) => {
+        const filterFound = chosenFilters.find(chosenFilter => {
+            if(chosenFilter.filterGroup === filterItem.filterGroup) {
+                return chosenFilter.name === filterItem.name
+            }
+            return false;
+        })
+        return !!filterFound;
+    }
+
     const defineUniqueFilterGroups = (filters: IFilter[]) => {
         let uniqueGroup: string[] = [];
         filters.forEach(item => {
