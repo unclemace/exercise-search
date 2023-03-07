@@ -1,3 +1,4 @@
+@import "../utils/variables";
 @mixin fluid-type($min-font-size: 12px, $max-font-size: 21px, $lower-range: 420px, $upper-range: 900px) {
 
   font-size: calc(#{$min-font-size} + #{(($max-font-size / ($max-font-size * 0 + 1)) - ($min-font-size / ($min-font-size * 0 + 1)))} * ( (100vw - #{$lower-range}) / #{(($upper-range / ($upper-range * 0 + 1)) - ($lower-range / ($lower-range * 0 + 1)))}));
@@ -14,7 +15,7 @@
 p {
   @include fluid-type(7px, 14px);
   font-weight: normal;
-  color: rgba(79, 80, 90, 0.6);
+  color: $text
 }
 
 h1 {

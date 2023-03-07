@@ -7,8 +7,8 @@ interface ExercisesSearchBarProps {
 export const SearchBar:FC<ExercisesSearchBarProps> = ({onInputChange, placeholder}) => {
     return (
         <div className='searchbar'>
+            <i className="gg-search"></i>
             <input onChange={(e) => onInputChange(e.target.value)} type='text' placeholder={placeholder}/>
-            <i></i>
         </div>
     )
 }
