@@ -88,13 +88,13 @@ export const FilterContainer: FC<FilterContainerProps> = ({filters}) => {
             <header>
               <h2>Equipment selection</h2>
             </header>
-            <div className='filter__container'>
+            <section className='filter__container'>
                 {
                     sortedFilters.map((filtersList, count) => {
                         return <FilterList isFilterChosen={isFilterChosen} key={count} filterList={filtersList} onFilterClick={handleFilterClick}/>
                     })
                 }
-            </div>
+            </section>
          </section>
     )
 };
