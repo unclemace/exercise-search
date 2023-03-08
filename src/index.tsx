@@ -7,9 +7,7 @@ import { Provider } from 'react-redux'
 import { store } from "./store/store";
 import {
     createBrowserRouter,
-    RouterProvider,
-    createRoutesFromElements,
-    Route
+    RouterProvider
 } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(

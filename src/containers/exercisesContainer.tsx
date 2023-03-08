@@ -1,4 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
+import Modal from 'react-modal';
 import { useAppSelector } from '../hooks/hooks';
 
 import ExerciseList from '../components/exerciseList';
@@ -6,10 +7,7 @@ import { SearchBar } from '../components/searchBar';
 import { selectExercises } from '../store/slices/exercisesSlice';
 import { IExercise } from '../types/types';
 
-interface ExercisesContainerProps {
-
-}
-export const ExercisesContainer:FC<ExercisesContainerProps> = () => {
+export const ExercisesContainer:FC = () => {
     const exercises = useAppSelector(selectExercises);
     const [filteredExercises, setFilteredExercises] = useState(exercises);
     const visibleExercises = (exercises: IExercise[]) => {

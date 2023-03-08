@@ -23,6 +23,12 @@ h1 {
   font-weight: 100;
 }
 
+h3 {
+  @include fluid-type(10px, 21px);
+  color: $black;
+
+}
+
 
 body {
   font-family: 'Roboto', sans-serif;
