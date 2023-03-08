@@ -4,21 +4,27 @@
 .exercises {
   &__container {
     @include list-container;
+    padding: 40px 20px;
   }
   &__list {
-    margin-top: 30px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
   &__item {
-    display: grid;
-
+    display: flex;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    cursor: pointer;
 
     img {
       width: 100px;
       height: 100px;
+    }
+  }
+
+  &__description {
+    h3,p {
+      text-align: left;
     }
   }
 }

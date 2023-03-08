@@ -8,16 +8,15 @@ interface ExerciseProps {
 
 
 const ExerciseCard: FC<ExerciseProps> = ({exercise}) => {
-    const {name, description, imageSrc, requiredEquipment, muscleGroup} = exercise;
+    const {name, imageSrc, requiredEquipment, muscleGroup} = exercise;
     return (
         <li className='exercises__item'>
-            <a>
-                <img src={imageSrc} alt="Exercise image"/>
+            <img src={imageSrc} alt="Exercise image"/>
+            <div className="exercises__description">
                 <h3>{name}</h3>
-                <p>{description}</p>
                 <p>Required Equipment: {requiredEquipment}</p>
                 <p>Trained muscles: {muscleGroup.join(', ')}</p>
-            </a>
+            </div>
         </li>
     )
 }
