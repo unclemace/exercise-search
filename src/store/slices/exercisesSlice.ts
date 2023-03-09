@@ -92,10 +92,14 @@ export const exercisesSlice = createSlice( {
                 }
             })
             filterExercises(state.exercises, state.chosenFilters);
+        },
+        clearFilters: (state) => {
+            state.chosenFilters = [];
+            filterExercises(state.exercises, state.chosenFilters);
         }
     }
 })
-export const { addFilter, removeFilter } = exercisesSlice.actions;
+export const { addFilter, removeFilter, clearFilters } = exercisesSlice.actions;
 export const selectExercises = (state: RootState) => {
     return state.exercises.exercises;
 }

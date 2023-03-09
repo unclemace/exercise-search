@@ -2,7 +2,7 @@ import React, {FC, useEffect} from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { FilterList } from '../components/filterList';
 import { IFilter } from '../types/types';
-import { addFilter, removeFilter, selectChosenFilters } from '../store/slices/exercisesSlice'
+import { addFilter, removeFilter, clearFilters, selectChosenFilters } from '../store/slices/exercisesSlice'
 import { useSearchParams } from 'react-router-dom';
 
 interface FilterContainerProps {
@@ -94,6 +94,7 @@ export const FilterContainer: FC<FilterContainerProps> = ({filters}) => {
                         return <FilterList isFilterChosen={isFilterChosen} key={count} filterList={filtersList} onFilterClick={handleFilterClick}/>
                     })
                 }
+                {chosenFilters.length > 0 ? <button onClick={() => dispatch(clearFilters())} className="button">Clear all</button>: ''}
             </section>
          </section>
     )
