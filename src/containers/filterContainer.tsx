@@ -54,6 +54,10 @@ export const FilterContainer: FC<FilterContainerProps> = ({filters}) => {
             dispatch(addFilter(filterChosen));
         }
     }
+
+    const handleClearButtonClick = () => {
+        dispatch(clearFilters());
+    }
     const updateFilterSearchParams = (chosenFilters: IFilter[]) => {
         const params = new URLSearchParams();
         chosenFilters.forEach(chosenFilter => {
@@ -94,7 +98,7 @@ export const FilterContainer: FC<FilterContainerProps> = ({filters}) => {
                         return <FilterList isFilterChosen={isFilterChosen} key={count} filterList={filtersList} onFilterClick={handleFilterClick}/>
                     })
                 }
-                {chosenFilters.length > 0 ? <button onClick={() => dispatch(clearFilters())} className="button">Clear all</button>: ''}
+                {chosenFilters.length > 0 ? <button onClick={handleClearButtonClick} className="button">Clear all</button>: ''}
             </section>
          </section>
     )
