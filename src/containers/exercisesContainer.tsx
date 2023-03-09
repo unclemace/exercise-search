@@ -1,15 +1,16 @@
 import React, {FC, useEffect, useState} from 'react';
-import Modal from 'react-modal';
 import { useAppSelector } from '../hooks/hooks';
 
 import ExerciseList from '../components/exerciseList';
 import { SearchBar } from '../components/searchBar';
+import LoadingSpinner from '../components/loadingSpinner';
 import { selectExercises } from '../store/slices/exercisesSlice';
 import { IExercise } from '../types/types';
 
 export const ExercisesContainer:FC = () => {
     const exercises = useAppSelector(selectExercises);
     const [filteredExercises, setFilteredExercises] = useState(exercises);
+    const [isLoading, setIsLoading] = useState(true);
     const visibleExercises = (exercises: IExercise[]) => {
         return exercises.filter(exercise => exercise.visible);
     }
@@ -26,8 +27,16 @@ export const ExercisesContainer:FC = () => {
         }
     }
 
+    const enableLoading = () => {
+        setIsLoading(true);
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 500)
+    }
+
     useEffect(() => {
         setFilteredExercises(visibleExercises(exercises));
+        enableLoading();
     }, [exercises])
 
     return (
@@ -37,7 +46,7 @@ export const ExercisesContainer:FC = () => {
                 <SearchBar placeholder={'Search Exercises'} onInputChange={handleSearchChange}/>
             </header>
             <div className='exercises__container'>
-                <ExerciseList exercises={filteredExercises}/>
+                {isLoading ? <LoadingSpinner/>:<ExerciseList exercises={filteredExercises}/>}
             </div>
         </section>
     )
