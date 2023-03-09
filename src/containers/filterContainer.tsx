@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
-import { FilterList } from '../components/filterList';
+import FilterList from '../components/filterList';
 import { IFilter } from '../types/types';
 import { addFilter, removeFilter, clearFilters, selectChosenFilters } from '../store/slices/exercisesSlice'
 import { useSearchParams } from 'react-router-dom';

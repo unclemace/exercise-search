@@ -7,10 +7,12 @@ interface FilterItemProps {
     isFilterChosen: (filter: IFilter) => boolean
 }
 
-export const FilterItem:FC<FilterItemProps> = ({ filterItem, onFilterClick, isFilterChosen}) => {
+const FilterItem:FC<FilterItemProps> = ({ filterItem, onFilterClick, isFilterChosen}) => {
     return (
         <li className={`filter__item ${isFilterChosen(filterItem)? 'active': ''}`} onClick={() => onFilterClick(filterItem)}>
            <span>{filterItem.name}</span>
         </li>
     );
 }
+
+export default FilterItem;

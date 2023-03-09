@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {FilterItem} from './filterItem';
+import FilterItem from './filterItem';
 import { IFilter } from "../types/types";
 
 interface FilterListProps {
@@ -9,7 +9,7 @@ interface FilterListProps {
 
 }
 
-export const FilterList:FC<FilterListProps> = ({ filterList, onFilterClick, isFilterChosen }) => {
+const FilterList:FC<FilterListProps> = ({ filterList, onFilterClick, isFilterChosen }) => {
     return (
         <div className="filter__list-item">
             <h3>{filterList[0].filterGroup}</h3>
@@ -22,3 +22,5 @@ export const FilterList:FC<FilterListProps> = ({ filterList, onFilterClick, isFi
         </div>
     )
 }
+
+export default FilterList;

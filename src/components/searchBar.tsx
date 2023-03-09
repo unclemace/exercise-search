@@ -4,7 +4,7 @@ interface ExercisesSearchBarProps {
     placeholder: string;
     onInputChange: (input: string) => void
 }
-export const SearchBar:FC<ExercisesSearchBarProps> = ({onInputChange, placeholder}) => {
+const SearchBar:FC<ExercisesSearchBarProps> = ({onInputChange, placeholder}) => {
     return (
         <div className='searchbar'>
             <i className="gg-search"></i>
@@ -12,4 +12,6 @@ export const SearchBar:FC<ExercisesSearchBarProps> = ({onInputChange, placeholde
         </div>
     )
 }
+
+export default SearchBar;
 

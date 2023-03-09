@@ -2,7 +2,7 @@ import React, {FC, useEffect, useState} from 'react';
 import { useAppSelector } from '../hooks/hooks';
 
 import ExerciseList from '../components/exerciseList';
-import { SearchBar } from '../components/searchBar';
+import SearchBar from '../components/searchBar';
 import LoadingSpinner from '../components/loadingSpinner';
 import { selectExercises } from '../store/slices/exercisesSlice';
 import { IExercise } from '../types/types';
