@@ -132,6 +132,7 @@
     &.active {
       color: $white;
       background-color: invert($background-light);
+      transform: scale(1.03);
       transition: background-color 300ms ease-in;
     }
   }
