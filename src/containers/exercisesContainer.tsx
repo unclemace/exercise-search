@@ -1,16 +1,17 @@
 import React, {FC, useEffect, useState} from 'react';
-import { useAppSelector } from '../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 
 import ExerciseList from '../components/exerciseList';
 import SearchBar from '../components/searchBar';
 import LoadingSpinner from '../components/loadingSpinner';
-import { selectExercises } from '../store/slices/exercisesSlice';
+import { fetchExercises, selectExercises } from '../store/slices/exercisesSlice';
 import { IExercise } from '../types/types';
 
 export const ExercisesContainer:FC = () => {
     const exercises = useAppSelector(selectExercises);
     const [filteredExercises, setFilteredExercises] = useState(exercises);
-    const [isLoading, setIsLoading] = useState(true);
+    const status = useAppSelector(state => state.exercises.status);
+    const dispatch = useAppDispatch();
     const visibleExercises = (exercises: IExercise[]) => {
         return exercises.filter(exercise => exercise.visible);
     }
@@ -27,17 +28,12 @@ export const ExercisesContainer:FC = () => {
         }
     }
 
-    const enableLoading = () => {
-        setIsLoading(true);
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 500)
-    }
-
     useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchExercises());
+        }
         setFilteredExercises(visibleExercises(exercises));
-        enableLoading();
-    }, [exercises])
+    }, [exercises, status])
 
     return (
         <section className='exercises'>
@@ -46,7 +42,7 @@ export const ExercisesContainer:FC = () => {
                 <SearchBar placeholder={'Search Exercises'} onInputChange={handleSearchChange}/>
             </header>
             <div className='exercises__container'>
-                {isLoading ? <LoadingSpinner/>:<ExerciseList exercises={filteredExercises}/>}
+                {status === 'loading' ? <LoadingSpinner/>:<ExerciseList exercises={filteredExercises}/>}
             </div>
         </section>
     )
