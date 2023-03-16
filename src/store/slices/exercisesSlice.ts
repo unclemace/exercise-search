@@ -8,7 +8,7 @@ export const fetchExercises = createAsyncThunk('exercises/fetchExercises', async
     return await getExercises();
 })
 
-interface ExercisesSlice {
+export interface ExercisesSlice {
     exercises: IExercise[];
     chosenFilters: IFilter[];
     status: 'idle' | 'loading' | 'succeeded' | 'failed'

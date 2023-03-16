@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux'
-import { store } from "./store/store";
+import { setupStore } from "./store/store";
 import {
     createBrowserRouter,
     RouterProvider
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
 );
 
 root.render(
-    <Provider store={store}>
+    <Provider store={setupStore()}>
         <RouterProvider router={router}/>
     </Provider>
 );
