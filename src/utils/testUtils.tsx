@@ -6,8 +6,7 @@ import { Provider } from 'react-redux'
 
 import { setupStore } from '../store/store'
 import type { AppStore, RootState } from '../store/store'
-import {BrowserRouter, createBrowserRouter, RouterProvider} from "react-router-dom";
-import App from "../App";
+import { BrowserRouter } from 'react-router-dom';
 
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {

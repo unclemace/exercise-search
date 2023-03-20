@@ -1,14 +1,13 @@
-import React from 'react';
-import { fireEvent, screen } from '@testing-library/react';
-import App from './App';
-import { renderWithProviders } from './utils/testUtils';
-import { setupStore } from "./store/store";
+import React from 'react'
+import { act, fireEvent, screen } from '@testing-library/react'
 import { jest } from '@jest/globals';
-import * as exercisesService from './services/exercisesService';
+import { renderWithProviders } from '../utils/testUtils'
+import { ExercisesContainer } from './exercisesContainer'
+import * as exercisesService from '../services/exercisesService';
 
 
-describe('Exercise search', () => {
-    beforeEach(() => {
+describe('exercises container', () => {
+    beforeEach( () => {
         jest.spyOn(exercisesService, 'getExercises' ).mockResolvedValue(Promise.resolve([
             {
                 name: 'Pull up',
@@ -28,32 +27,33 @@ describe('Exercise search', () => {
             },
         ]));
     })
-    test('Should apply chosen filters to exercises block', async () => {
-        const store = setupStore();
-        await renderWithProviders(<App/>, {store})
-        const filter = screen.getByText('body only');
-        const suitableExerciseBefore =  await screen.findByText('Push up');
-        const unsuitableExerciseBefore = await screen.findByText('Pull up');
 
-        expect(suitableExerciseBefore).toBeInTheDocument();
-        expect(unsuitableExerciseBefore).toBeInTheDocument();
+    test('renders exercises list',   async () => {
+        await act(async () => {
+            renderWithProviders(<ExercisesContainer/>);
+        })
 
-        fireEvent.click(filter);
+        const exercise1 = await screen.findByText('Pull up');
+        const exercise2 = await screen.findByText('Push up');
 
-        const suitableExerciseAfter =  screen.queryByText('Push up');
-        const unsuitableExerciseAfter = screen.queryByText('Pull up');
+        expect(exercise1).toBeInTheDocument();
+        expect(exercise2).toBeInTheDocument();
+    })
 
-        expect(unsuitableExerciseAfter).not.toBeInTheDocument();
-        expect(suitableExerciseAfter).toBeInTheDocument();
+    test('search through exercises', async () => {
+        await act(async () => {
+            renderWithProviders(<ExercisesContainer/>);
+        })
+        const searchBar =  screen.getByLabelText('searchbar-input');
+        const exerciseUnsuitable = await screen.findByText('Push up');
+        const exerciseSuitable = await screen.findByText('Pull up');
 
-        const clearAllButton = screen.getByText('Clear all');
+        expect(exerciseUnsuitable).toBeInTheDocument();
+        expect(exerciseSuitable).toBeInTheDocument()
 
-        fireEvent.click(clearAllButton);
+        fireEvent.change(searchBar, {target: {value: 'Pul'}});
 
-        const suitableExercise = screen.queryByText('Push up');
-        const unsuitableExercise = screen.queryByText('Pull up');
-
-        expect(suitableExercise).toBeInTheDocument();
-        expect(unsuitableExercise).toBeInTheDocument();
-    });
-});
+        expect(exerciseUnsuitable).not.toBeInTheDocument();
+        expect(exerciseSuitable).toBeInTheDocument();
+    })
+})
