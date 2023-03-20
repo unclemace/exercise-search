@@ -65,8 +65,10 @@ const isFitsByEquipment = (exercise: IExercise, chosenEquipment: IFilter[]) => {
 export const filterExercises = (exercises: IExercise[], chosenFilters: IFilter[]) => {
     const muscleGroupFilters = chosenFilters.filter(filter => filter.filterGroup === 'Muscle group');
     const equipmentFilters = chosenFilters.filter(filter => filter.filterGroup === 'Equipment');
-    return exercises.filter(exercise => {
-        exercise.visible = isFitsByEquipment(exercise, equipmentFilters) && isFitsByMuscleGroup(exercise, muscleGroupFilters);
-        return true;
+    return exercises.map(exercise => {
+        return {
+            ...exercise,
+            visible: isFitsByEquipment(exercise, equipmentFilters) && isFitsByMuscleGroup(exercise, muscleGroupFilters)
+        }
     });
 }

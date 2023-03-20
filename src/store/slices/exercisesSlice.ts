@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { RootState } from "../store";
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from '../store';
 import { IExercise, IFilter } from "../../types/types";
-import { getExercises, filterExercises } from "../../services/exercisesService";
+import { filterExercises, getExercises } from '../../services/exercisesService';
 
 
 export const fetchExercises = createAsyncThunk('exercises/fetchExercises', async () => {
@@ -26,7 +26,7 @@ export const exercisesSlice = createSlice( {
     reducers: {
         addFilter: (state, action: PayloadAction<IFilter>) => {
             state.chosenFilters.push(action.payload);
-            filterExercises(state.exercises, state.chosenFilters);
+            state.exercises = filterExercises(state.exercises, state.chosenFilters);
         },
         removeFilter: (state, action: PayloadAction<IFilter>) => {
             state.chosenFilters = state.chosenFilters.filter(filter => {
@@ -37,12 +37,12 @@ export const exercisesSlice = createSlice( {
                     return true;
                 }
             })
-            filterExercises(state.exercises, state.chosenFilters);
+            state.exercises = filterExercises(state.exercises, state.chosenFilters);
         },
         clearFilters: (state) => {
             state.chosenFilters = [];
-            filterExercises(state.exercises, state.chosenFilters);
-        }
+            state.exercises = filterExercises(state.exercises, state.chosenFilters);
+        },
     },
     extraReducers(builder){
         builder
