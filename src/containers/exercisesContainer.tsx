@@ -5,7 +5,7 @@ import ExerciseList from '../components/exerciseList';
 import SearchBar from '../components/searchBar';
 import LoadingSpinner from '../components/loadingSpinner';
 import { selectChosenFilters, selectExercises, setExercises } from '../store/slices/exercisesSlice';
-import {filterExercises, getExercises} from "../services/exercisesService";
+import { filterExercises } from '../services/exercisesService';
 
 export const ExercisesContainer:FC = () => {
     const exercises = useAppSelector(selectExercises);
