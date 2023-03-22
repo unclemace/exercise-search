@@ -1,4 +1,5 @@
 import {IExercise, IFilter} from "../types/types";
+import * as exercisesService from './exercisesService';
 
 export const getExercises = () => {
     return new Promise<IExercise[]>((resolve, reject) => {
@@ -60,7 +61,7 @@ const isFitsByEquipment = (exercise: IExercise, chosenEquipment: IFilter[]) => {
 }
 export const filterExercises = async (chosenFilters: IFilter[]) => {
     try {
-        const exercises = await getExercises();
+        const exercises = await exercisesService.getExercises();
         const muscleGroupFilters = chosenFilters.filter(filter => filter.filterGroup === 'Muscle group');
         const equipmentFilters = chosenFilters.filter(filter => filter.filterGroup === 'Equipment');
         return exercises.filter(exercise => {

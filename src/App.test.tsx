@@ -1,22 +1,21 @@
 import React from 'react';
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import App from './App';
 import { renderWithProviders } from './utils/testUtils';
-import { setupStore } from "./store/store";
+import { setupStore } from './store/store';
 import { jest } from '@jest/globals';
 import * as exercisesService from './services/exercisesService';
 
 
 describe('Exercise search', () => {
     beforeEach(() => {
-        jest.spyOn(exercisesService, 'getExercises' ).mockResolvedValue(Promise.resolve([
+        jest.spyOn(exercisesService, 'getExercises' ).mockResolvedValue([
             {
                 name: 'Pull up',
                 description: 'A pull-up is an upper-body strength exercise. The pull-up is a closed-chain movement where the body is suspended by the hands, gripping a bar or other implement at a distance typically wider than shoulder-width, and pulled up. As this happens, the elbows flex and the shoulders adduct and extend to bring the elbows to the torso. Pull-ups build up several muscles of the upper body, including the latissimus dorsi, trapezius, and biceps brachii. A pull-up may be performed with overhand (pronated), underhand (supinated)—sometimes referred to as a chin-up—neutral, or rotating hand position. Pull-ups are used by some organizations as a component of fitness tests, and as a conditioning activity for some sports.',
                 imageSrc: 'https://www.inspireusafoundation.org/wp-content/uploads/2022/11/pull-up-variations.jpg',
                 requiredEquipment: 'horizontal bar',
                 muscleGroup: ['back', 'biceps'],
-                visible: true,
             },
             {
                 name: 'Push up',
@@ -24,9 +23,8 @@ describe('Exercise search', () => {
                 imageSrc: 'https://www.fitnesseducation.edu.au/wp-content/uploads/2020/10/Pushups.jpg',
                 requiredEquipment: 'body only',
                 muscleGroup: ['shoulders'],
-                visible: true,
             },
-        ]));
+        ]);
     })
     test('Should apply chosen filters to exercises block', async () => {
         const store = setupStore();
@@ -40,20 +38,13 @@ describe('Exercise search', () => {
 
         fireEvent.click(filter);
 
-        const suitableExerciseAfter =  screen.queryByText('Push up');
-        const unsuitableExerciseAfter = screen.queryByText('Pull up');
-
-        expect(unsuitableExerciseAfter).not.toBeInTheDocument();
-        expect(suitableExerciseAfter).toBeInTheDocument();
+        await waitFor(() => expect(screen.queryByText('Push up')).toBeInTheDocument())
+        await waitFor(() => expect(screen.queryByText('Pull up')).not.toBeInTheDocument())
 
         const clearAllButton = screen.getByText('Clear all');
-
         fireEvent.click(clearAllButton);
 
-        const suitableExercise = screen.queryByText('Push up');
-        const unsuitableExercise = screen.queryByText('Pull up');
-
-        expect(suitableExercise).toBeInTheDocument();
-        expect(unsuitableExercise).toBeInTheDocument();
+        await waitFor(() => expect(screen.queryByText('Pull up')).toBeInTheDocument())
+        await waitFor(() => expect(screen.queryByText('Push up')).toBeInTheDocument())
     });
 });

@@ -4,18 +4,18 @@ import { jest } from '@jest/globals';
 import { renderWithProviders } from '../utils/testUtils'
 import { ExercisesContainer } from './exercisesContainer'
 import * as exercisesService from '../services/exercisesService';
+import {IExercise} from "../types/types";
 
 
 describe('exercises container', () => {
     beforeEach( () => {
-        jest.spyOn(exercisesService, 'getExercises' ).mockResolvedValue(Promise.resolve([
+        jest.spyOn(exercisesService, 'filterExercises' ).mockResolvedValue([
             {
                 name: 'Pull up',
                 description: 'A pull-up is an upper-body strength exercise. The pull-up is a closed-chain movement where the body is suspended by the hands, gripping a bar or other implement at a distance typically wider than shoulder-width, and pulled up. As this happens, the elbows flex and the shoulders adduct and extend to bring the elbows to the torso. Pull-ups build up several muscles of the upper body, including the latissimus dorsi, trapezius, and biceps brachii. A pull-up may be performed with overhand (pronated), underhand (supinated)—sometimes referred to as a chin-up—neutral, or rotating hand position. Pull-ups are used by some organizations as a component of fitness tests, and as a conditioning activity for some sports.',
                 imageSrc: 'https://www.inspireusafoundation.org/wp-content/uploads/2022/11/pull-up-variations.jpg',
                 requiredEquipment: 'horizontal bar',
                 muscleGroup: ['back', 'biceps'],
-                visible: true,
             },
             {
                 name: 'Push up',
@@ -23,9 +23,8 @@ describe('exercises container', () => {
                 imageSrc: 'https://www.fitnesseducation.edu.au/wp-content/uploads/2020/10/Pushups.jpg',
                 requiredEquipment: 'body only',
                 muscleGroup: ['shoulders'],
-                visible: true,
             },
-        ]));
+        ]);
     })
 
     test('renders exercises list',   async () => {

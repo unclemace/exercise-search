@@ -21,7 +21,6 @@ const initialState: RootState = {
     exercises: {
         exercises: [],
         chosenFilters: [],
-        status: 'idle'
     }
 }
 
