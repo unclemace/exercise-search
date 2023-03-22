@@ -4,36 +4,46 @@ import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import ExerciseList from '../components/exerciseList';
 import SearchBar from '../components/searchBar';
 import LoadingSpinner from '../components/loadingSpinner';
-import { fetchExercises, selectExercises } from '../store/slices/exercisesSlice';
-import { IExercise } from '../types/types';
+import { selectChosenFilters, selectExercises, setExercises } from '../store/slices/exercisesSlice';
+import {filterExercises, getExercises} from "../services/exercisesService";
 
 export const ExercisesContainer:FC = () => {
     const exercises = useAppSelector(selectExercises);
+    const chosenFilters = useAppSelector(selectChosenFilters);
     const [filteredExercises, setFilteredExercises] = useState(exercises);
-    const status = useAppSelector(state => state.exercises.status);
+    const [loading, setLoading] = useState<boolean>(true)
     const dispatch = useAppDispatch();
-    const visibleExercises = (exercises: IExercise[]) => {
-        return exercises.filter(exercise => exercise.visible);
-    }
     const handleSearchChange = (input: string) => {
         if (input.length === 0) {
-            return setFilteredExercises(visibleExercises(exercises));
+            return setFilteredExercises(exercises);
         }
         else {
             const editedInput = input.toLowerCase();
-            const matchedExercises = visibleExercises(exercises).filter(exercise => {
+            const matchedExercises = exercises.filter(exercise => {
                 return exercise.name.toLowerCase().startsWith(editedInput)
             })
             return setFilteredExercises(matchedExercises);
         }
     }
 
+    useEffect( () => {
+        (async () => {
+            try {
+                setLoading(true);
+                const exercises = await filterExercises(chosenFilters);
+                if(exercises){
+                    dispatch(setExercises(exercises));
+                    setLoading(false);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        })();
+    }, [chosenFilters])
+
     useEffect(() => {
-        if (status === 'idle') {
-            dispatch(fetchExercises());
-        }
-        setFilteredExercises(visibleExercises(exercises));
-    }, [exercises, status])
+        setFilteredExercises(exercises);
+    }, [exercises])
 
     return (
         <section className='exercises'>
@@ -42,7 +52,7 @@ export const ExercisesContainer:FC = () => {
                 <SearchBar placeholder={'Search Exercises'} onInputChange={handleSearchChange}/>
             </header>
             <div className='exercises__container'>
-                {status === 'loading' ? <LoadingSpinner/>:<ExerciseList exercises={filteredExercises}/>}
+                {loading ? <LoadingSpinner/>:<ExerciseList exercises={filteredExercises}/>}
             </div>
         </section>
     )

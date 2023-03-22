@@ -1,23 +1,15 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from '../store';
-import { IExercise, IFilter } from "../../types/types";
-import { filterExercises, getExercises } from '../../services/exercisesService';
-
-
-export const fetchExercises = createAsyncThunk('exercises/fetchExercises', async () => {
-    return await getExercises();
-})
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import {RootState} from '../store';
+import {IExercise, IFilter} from "../../types/types";
 
 export interface ExercisesSlice {
     exercises: IExercise[];
     chosenFilters: IFilter[];
-    status: 'idle' | 'loading' | 'succeeded' | 'failed'
 }
 
 const initialState: ExercisesSlice = {
     exercises: [],
     chosenFilters: [],
-    status: 'idle'
 };
 
 export const exercisesSlice = createSlice( {
@@ -26,7 +18,6 @@ export const exercisesSlice = createSlice( {
     reducers: {
         addFilter: (state, action: PayloadAction<IFilter>) => {
             state.chosenFilters.push(action.payload);
-            state.exercises = filterExercises(state.exercises, state.chosenFilters);
         },
         removeFilter: (state, action: PayloadAction<IFilter>) => {
             state.chosenFilters = state.chosenFilters.filter(filter => {
@@ -37,28 +28,16 @@ export const exercisesSlice = createSlice( {
                     return true;
                 }
             })
-            state.exercises = filterExercises(state.exercises, state.chosenFilters);
         },
         clearFilters: (state) => {
             state.chosenFilters = [];
-            state.exercises = filterExercises(state.exercises, state.chosenFilters);
         },
-    },
-    extraReducers(builder){
-        builder
-            .addCase(fetchExercises.pending, (state, action) => {
-                state.status = 'loading';
-            })
-            .addCase(fetchExercises.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                state.exercises = action.payload as IExercise[];
-            })
-            .addCase(fetchExercises.rejected, (state, action) => {
-                state.status = 'failed';
-            })
+        setExercises: (state, action: PayloadAction<IExercise[]>) => {
+            state.exercises = action.payload;
+        }
     }
 })
-export const { addFilter, removeFilter, clearFilters } = exercisesSlice.actions;
+export const { addFilter, removeFilter, clearFilters, setExercises } = exercisesSlice.actions;
 export const selectExercises = (state: RootState) => {
     return state.exercises.exercises;
 }

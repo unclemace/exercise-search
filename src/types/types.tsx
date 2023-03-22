@@ -4,7 +4,6 @@ export interface IExercise {
     imageSrc: string;
     requiredEquipment: string;
     muscleGroup: string[];
-    visible: boolean;
 }
 
 export interface IFilter {

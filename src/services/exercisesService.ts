@@ -1,7 +1,7 @@
 import {IExercise, IFilter} from "../types/types";
 
 export const getExercises = () => {
-    return new Promise((resolve, reject) => {
+    return new Promise<IExercise[]>((resolve, reject) => {
         setTimeout(() => {
             const exercises: IExercise[] = [
                 {
@@ -10,7 +10,6 @@ export const getExercises = () => {
                     imageSrc: 'https://www.inspireusafoundation.org/wp-content/uploads/2022/11/pull-up-variations.jpg',
                     requiredEquipment: 'horizontal bar',
                     muscleGroup: ['back', 'biceps'],
-                    visible: true,
                 },
                 {
                     name: 'Push up',
@@ -18,7 +17,6 @@ export const getExercises = () => {
                     imageSrc: 'https://www.fitnesseducation.edu.au/wp-content/uploads/2020/10/Pushups.jpg',
                     requiredEquipment: 'body only',
                     muscleGroup: ['shoulders'],
-                    visible: true,
                 },
                 {
                     name: 'Bench press',
@@ -26,7 +24,6 @@ export const getExercises = () => {
                     imageSrc: 'https://cdn.muscleandstrength.com/sites/default/files/barbell-bench-press_0.jpg',
                     requiredEquipment: 'kettlebells',
                     muscleGroup: ['legs', 'chest' ],
-                    visible: true,
                 },
                 {
                     name: 'Dead lift',
@@ -34,7 +31,6 @@ export const getExercises = () => {
                     imageSrc: 'https://www.shape.com/thmb/TDOFpB64QaVjoBWz82A7c7vomT4=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Guide-to-Deadlifts-GettyImages-1368073669-9492fe76328041169af7baf93afe1bc5.jpg',
                     requiredEquipment: 'bands',
                     muscleGroup: ['legs', 'triceps'],
-                    visible: true,
                 }
             ]
             resolve(exercises);
@@ -62,13 +58,16 @@ const isFitsByEquipment = (exercise: IExercise, chosenEquipment: IFilter[]) => {
 
     }
 }
-export const filterExercises = (exercises: IExercise[], chosenFilters: IFilter[]) => {
-    const muscleGroupFilters = chosenFilters.filter(filter => filter.filterGroup === 'Muscle group');
-    const equipmentFilters = chosenFilters.filter(filter => filter.filterGroup === 'Equipment');
-    return exercises.map(exercise => {
-        return {
-            ...exercise,
-            visible: isFitsByEquipment(exercise, equipmentFilters) && isFitsByMuscleGroup(exercise, muscleGroupFilters)
-        }
-    });
+export const filterExercises = async (chosenFilters: IFilter[]) => {
+    try {
+        const exercises = await getExercises();
+        const muscleGroupFilters = chosenFilters.filter(filter => filter.filterGroup === 'Muscle group');
+        const equipmentFilters = chosenFilters.filter(filter => filter.filterGroup === 'Equipment');
+        return exercises.filter(exercise => {
+            return isFitsByEquipment(exercise, equipmentFilters) && isFitsByMuscleGroup(exercise, muscleGroupFilters)
+        });
+
+    } catch (err){
+        console.error('CANT FILTER EXERCISES', err);
+    }
 }
