@@ -38,37 +38,27 @@ export const getExercises = () => {
         }, 1000)
     })
 }
-const isFitsByMuscleGroup = (exercise: IExercise, chosenMuscleGroups: IFilter[]) => {
-    if (chosenMuscleGroups.length === 0 ) {
-        return true
-    }
-    else {
-        const muscleGroupArray: string[] = [];
-        chosenMuscleGroups.forEach(chosenMuscleGroup => muscleGroupArray.push(chosenMuscleGroup.name));
-        return muscleGroupArray.some(group => exercise.muscleGroup.includes(group));
-    }
-}
-const isFitsByEquipment = (exercise: IExercise, chosenEquipment: IFilter[]) => {
-    if (chosenEquipment.length === 0) {
+const isFitsByMuscleGroup = (exercise: IExercise, chosenMuscleGroups: IFilter) => {
+    if (chosenMuscleGroups === undefined ||chosenMuscleGroups.values.length === 0 ) {
         return true;
     }
-    else {
-        const equipmentArray: string[] = [];
-        chosenEquipment.forEach(equipment => equipmentArray.push(equipment.name));
-        return equipmentArray.includes(exercise.requiredEquipment);
-
+    return exercise.muscleGroup.some(muscleGroup => chosenMuscleGroups.values.includes(muscleGroup));
+}
+const isFitsByEquipment = (exercise: IExercise, chosenEquipment: IFilter) => {
+    if (chosenEquipment === undefined || chosenEquipment.values.length === 0) {
+        return true;
     }
+    return chosenEquipment.values.includes(exercise.requiredEquipment);
 }
 export const filterExercises = async (chosenFilters: IFilter[]) => {
     try {
         const exercises = await exercisesService.getExercises();
-        const muscleGroupFilters = chosenFilters.filter(filter => filter.filterGroup === 'Muscle group');
-        const equipmentFilters = chosenFilters.filter(filter => filter.filterGroup === 'Equipment');
+        const muscleGroupFilters = chosenFilters.find(filter => filter.filterGroup === 'Muscle group');
+        const equipmentFilters = chosenFilters.find(filter => filter.filterGroup === 'Equipment');
         return exercises.filter(exercise => {
-            return isFitsByEquipment(exercise, equipmentFilters) && isFitsByMuscleGroup(exercise, muscleGroupFilters)
-        });
-
+            return isFitsByEquipment(exercise, equipmentFilters as IFilter) && isFitsByMuscleGroup(exercise, muscleGroupFilters as IFilter)
+        })
     } catch (err){
-        console.error('CANT FILTER EXERCISES', err);
+        console.error(err);
     }
 }

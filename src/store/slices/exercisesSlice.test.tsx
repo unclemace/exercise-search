@@ -7,7 +7,7 @@ import reducer, {
     selectExercises,
     selectChosenFilters,
 } from './exercisesSlice';
-import {IExercise, IFilter} from '../../types/types';
+import { FilterValue, IExercise } from '../../types/types';
 import { RootState } from '../store';
 
 
@@ -26,15 +26,15 @@ describe('Filter slice', () => {
             exercises: [],
             chosenFilters: [],
         }
-        const filter: IFilter = {
+        const filter: FilterValue = {
             filterGroup: 'Muscle group',
-            name: 'legs'
+            value: 'legs'
         }
         expect(reducer(previousState, addFilter(filter))).toEqual({
             exercises: [],
             chosenFilters: [{
                 filterGroup: 'Muscle group',
-                name: 'legs'
+                values: ['legs']
             }],
         })
     })
@@ -43,13 +43,13 @@ describe('Filter slice', () => {
             exercises: [],
             chosenFilters: [{
                 filterGroup: 'Muscle group',
-                name: 'legs'
+                values: ['legs']
             }],
         }
 
-        const filter: IFilter = {
+        const filter: FilterValue = {
             filterGroup: 'Equipment',
-            name: 'body only'
+            value: 'body only'
         }
 
         expect(reducer(previousState, addFilter(filter))).toEqual({
@@ -57,11 +57,11 @@ describe('Filter slice', () => {
             chosenFilters: [
                 {
                     filterGroup: 'Muscle group',
-                    name: 'legs'
+                    values: ['legs']
                 },
                 {
                     filterGroup: 'Equipment',
-                    name: 'body only'
+                    values: ['body only']
                 }
             ],
         })
@@ -73,9 +73,9 @@ describe('Filter slice', () => {
             chosenFilters: [],
         }
 
-        const filter: IFilter = {
+        const filter: FilterValue = {
             filterGroup: 'Muscle group',
-            name: 'legs'
+            value: 'legs'
         }
         expect(reducer(previousState, removeFilter(filter))).toEqual({
             exercises: [],
@@ -88,25 +88,29 @@ describe('Filter slice', () => {
             chosenFilters: [
                 {
                     filterGroup: 'Muscle group',
-                    name: 'legs'
+                    values: ['legs']
                 },
                 {
                     filterGroup: 'Equipment',
-                    name: 'body only'
+                    values: ['body only']
                 }
             ],
         }
 
-        const filter: IFilter = {
+        const filter: FilterValue = {
                 filterGroup: 'Muscle group',
-                name: 'legs'
+                value: 'legs'
         }
         expect(reducer(previousState, removeFilter(filter))).toEqual({
             exercises: [],
             chosenFilters: [
                 {
+                    filterGroup: 'Muscle group',
+                    values: []
+                },
+                {
                     filterGroup: 'Equipment',
-                    name: 'body only'
+                    values: ['body only']
                 }
             ],
         })
@@ -118,11 +122,11 @@ describe('Filter slice', () => {
             chosenFilters: [
                 {
                     filterGroup: 'Muscle group',
-                    name: 'legs'
+                    values: ['legs']
                 },
                 {
                     filterGroup: 'Equipment',
-                    name: 'body only'
+                    values: ['body only']
                 }
             ],
         }
@@ -139,11 +143,11 @@ describe('Filter slice', () => {
             chosenFilters: [
                 {
                     filterGroup: 'Muscle group',
-                    name: 'legs'
+                    values: ['legs']
                 },
                 {
                     filterGroup: 'Equipment',
-                    name: 'body only'
+                    values: ['body only']
                 }
             ],
         }
@@ -183,11 +187,11 @@ describe('Filter slice', () => {
             chosenFilters: [
                 {
                     filterGroup: 'Muscle group',
-                    name: 'legs'
+                    values: ['legs']
                 },
                 {
                     filterGroup: 'Equipment',
-                    name: 'body only'
+                    values: ['body only']
                 }
             ],
         })
@@ -241,11 +245,11 @@ describe('Filter slice', () => {
                 chosenFilters: [
                     {
                         filterGroup: 'Muscle group',
-                        name: 'legs'
+                        values: ['legs']
                     },
                     {
                         filterGroup: 'Equipment',
-                        name: 'body only'
+                        values: ['body only']
                     }
                 ],
             }
@@ -255,11 +259,11 @@ describe('Filter slice', () => {
             [
                 {
                     filterGroup: 'Muscle group',
-                    name: 'legs'
+                    values: ['legs']
                 },
                 {
                     filterGroup: 'Equipment',
-                    name: 'body only'
+                    values: ['body only']
                 }
             ],
         )

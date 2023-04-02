@@ -7,7 +7,12 @@ export interface IExercise {
 }
 
 export interface IFilter {
-    name: string;
+    values: string[];
+    filterGroup: FilterGroup;
+}
+
+export type FilterValue = {
+    value: string;
     filterGroup: FilterGroup;
 }
 

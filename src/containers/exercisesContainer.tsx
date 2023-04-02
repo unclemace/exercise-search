@@ -31,7 +31,7 @@ export const ExercisesContainer:FC = () => {
             try {
                 setLoading(true);
                 const exercises = await filterExercises(chosenFilters);
-                if(exercises){
+                if (exercises){
                     dispatch(setExercises(exercises));
                     setLoading(false);
                 }

@@ -8,11 +8,11 @@ import { AppStore, RootState, setupStore } from '../store/store';
 
 const mockFilters: IFilter[] = [
     {
-        name: 'body only',
+        values: ['body only'],
         filterGroup: 'Equipment'
     },
     {
-        name: 'shoulders',
+        values: ['shoulders'],
         filterGroup: 'Muscle group'
     },
 ];

@@ -1,16 +1,17 @@
 import React, {FC} from 'react';
-import { IFilter } from '../types/types';
+import { FilterValue } from '../types/types';
 
 interface FilterItemProps {
-    filterItem: IFilter;
-    onFilterClick: (filter: IFilter) => void
-    isFilterChosen: (filter: IFilter) => boolean
+    filterValue: FilterValue;
+    onFilterClick: (filter: FilterValue) => void
+    isFilterChosen: (filter: FilterValue) => boolean
 }
 
-const FilterItem:FC<FilterItemProps> = ({ filterItem, onFilterClick, isFilterChosen}) => {
+const FilterItem:FC<FilterItemProps> = ({ filterValue, onFilterClick, isFilterChosen}) => {
+    const { value } = filterValue;
     return (
-        <li className={`filter__item ${isFilterChosen(filterItem)? 'active': ''}`} onClick={() => onFilterClick(filterItem)}>
-           <span>{filterItem.name}</span>
+        <li className={`filter__item ${isFilterChosen(filterValue)? 'active': ''}`} onClick={() => onFilterClick(filterValue)}>
+           <span>{value}</span>
         </li>
     );
 }

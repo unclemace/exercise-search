@@ -1,20 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import {RootState} from '../store';
-import {IExercise, IFilter} from "../../types/types";
-
-const compareFilters = (filter1: IFilter, filter2: IFilter) => {
-    const keys1 = Object.keys(filter1);
-    const keys2 = Object.keys(filter2);
-    if (keys1.length !== keys2.length) {
-        return false;
-    }
-    for (let key of keys1) {
-        if (filter1[key as keyof IFilter] !== filter2[key as keyof IFilter]) {
-            return false;
-        }
-    }
-    return true;
-}
+import { RootState } from '../store';
+import { FilterValue, IExercise, IFilter } from '../../types/types';
 export interface ExercisesSlice {
     exercises: IExercise[];
     chosenFilters: IFilter[];
@@ -29,11 +15,26 @@ export const exercisesSlice = createSlice( {
     name: 'exercises',
     initialState,
     reducers: {
-        addFilter: (state, action: PayloadAction<IFilter>) => {
-            state.chosenFilters.push(action.payload);
+        addFilter: (state, action: PayloadAction<FilterValue>) => {
+            const { filterGroup, value } = action.payload;
+            const groupPos = state.chosenFilters.findIndex(chosenFilter => chosenFilter.filterGroup === filterGroup);
+            if (groupPos > -1) {
+                state.chosenFilters[groupPos].values.push(value)
+            }
+            else {
+                state.chosenFilters.push({
+                    filterGroup: filterGroup,
+                    values: [value]
+                })
+            }
         },
-        removeFilter: (state, action: PayloadAction<IFilter>) => {
-            state.chosenFilters = state.chosenFilters.filter(filter => !compareFilters(filter, action.payload))
+        removeFilter: (state, action: PayloadAction<FilterValue>) => {
+            const { filterGroup, value } = action.payload;
+            const groupIndex = state.chosenFilters.findIndex(chosenFilter => chosenFilter.filterGroup === filterGroup);
+            const pos = state.chosenFilters[groupIndex]?.values.indexOf(value);
+            if (pos > -1) {
+                state.chosenFilters[groupIndex].values.splice(pos, 1)
+            }
         },
         clearFilters: (state) => {
             state.chosenFilters = [];

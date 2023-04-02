@@ -12,47 +12,13 @@ import { ExercisesContainer } from './containers/exercisesContainer';
 function App() {
     const filters: IFilter[] =  [
         {
-            name: 'body only',
+            values: ['body only', 'bands', 'kettlebells', 'horizontal bar' ],
             filterGroup: 'Equipment'
         },
         {
-            name: 'bands',
-            filterGroup: 'Equipment'
-        },
-        {
-            name: 'kettlebells',
-            filterGroup: 'Equipment'
-        },
-        {
-            name: 'horizontal bar',
-            filterGroup: 'Equipment'
-        },
-        {
-            name: 'back',
+            values: ['back', 'biceps', 'triceps', 'legs', 'chest', 'shoulders'],
             filterGroup: 'Muscle group'
         },
-        {
-            name: 'biceps',
-            filterGroup: 'Muscle group'
-        },
-        {
-            name: 'triceps',
-            filterGroup: 'Muscle group'
-        },
-        {
-            name: 'legs',
-            filterGroup: 'Muscle group'
-        },
-        {
-            name: 'chest',
-            filterGroup: 'Muscle group'
-        },
-        {
-            name: 'shoulders',
-            filterGroup: 'Muscle group'
-        },
-
-
     ]
     return (
         <div className="App">

@@ -38,7 +38,7 @@ describe('exercises service', () => {
         const chosenFilters: IFilter[] = [
             {
                 filterGroup: "Muscle group",
-                name: 'legs'
+                values: ['legs']
             }
         ]
 
@@ -67,7 +67,7 @@ describe('exercises service', () => {
         const chosenFilters: IFilter[] = [
             {
                 filterGroup: "Muscle group",
-                name: 'legs'
+                values: ['legs']
             }
         ]
         const filteredExercises = await filterExercises(chosenFilters);
@@ -132,7 +132,7 @@ describe('exercises service', () => {
         const chosenFilters: IFilter[] = [
             {
                 filterGroup: "Equipment",
-                name: 'horizontal bar'
+                values: ['horizontal bar']
             }
         ];
 

@@ -4,7 +4,6 @@ import { jest } from '@jest/globals';
 import { renderWithProviders } from '../utils/testUtils'
 import { ExercisesContainer } from './exercisesContainer'
 import * as exercisesService from '../services/exercisesService';
-import {IExercise} from "../types/types";
 
 
 describe('exercises container', () => {
