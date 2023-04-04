@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useState} from 'react';
 
 import {IExercise} from '../types/types';
 import  ExerciseModal from './exerciseModal'
@@ -9,7 +9,7 @@ interface ExerciseProps {
 
 
 const ExerciseCard: FC<ExerciseProps> = ({exercise}) => {
-    const {name, imageSrc, requiredEquipment, muscleGroup, description} = exercise;
+    const {name, imageSrc, requiredEquipment, muscleGroup} = exercise;
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const closeModal = () => {
         setModalIsOpen(false);
@@ -21,8 +21,8 @@ const ExerciseCard: FC<ExerciseProps> = ({exercise}) => {
 
     return (
         <li className='exercises__item'>
-            <a onClick={openModal} >
-                <img src={imageSrc} alt="Exercise image"/>
+            <a onClick={openModal} href="#">
+                <img src={imageSrc} alt={`${name}`}/>
                 <div className="exercises__description">
                     <h3>{name}</h3>
                     <p>Required Equipment: {requiredEquipment}</p>

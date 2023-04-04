@@ -6,6 +6,7 @@ import SearchBar from '../components/searchBar';
 import LoadingSpinner from '../components/loadingSpinner';
 import { selectChosenFilters, selectExercises, setExercises } from '../store/slices/exercisesSlice';
 import { filterExercises } from '../services/exercisesService';
+import { getFilteredExercises } from '../services/exersicesServiceAPI';
 
 export const ExercisesContainer:FC = () => {
     const exercises = useAppSelector(selectExercises);
@@ -30,7 +31,9 @@ export const ExercisesContainer:FC = () => {
         (async () => {
             try {
                 setLoading(true);
-                const exercises = await filterExercises(chosenFilters);
+                const exercises = process.env.REACT_APP_MODE==='dev'?
+                    await filterExercises(chosenFilters):
+                    await getFilteredExercises(chosenFilters);
                 if (exercises){
                     dispatch(setExercises(exercises));
                     setLoading(false);
