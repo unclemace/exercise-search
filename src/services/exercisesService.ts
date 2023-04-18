@@ -1,5 +1,6 @@
-import {IExercise, IFilter} from "../types/types";
+import {IExercise, IFilter} from '../types/types';
 import * as exercisesService from './exercisesService';
+import { getFilteredExercises } from './exersicesServiceAPI';
 
 export const getExercises = () => {
     return new Promise<IExercise[]>((resolve, reject) => {
@@ -50,14 +51,21 @@ const isFitsByEquipment = (exercise: IExercise, chosenEquipment: IFilter) => {
     }
     return chosenEquipment.values.includes(exercise.requiredEquipment);
 }
+
+const filterExercisesLocal = async (chosenFilters: IFilter[]) => {
+    const exercises = await exercisesService.getExercises();
+    const muscleGroupFilters = chosenFilters.find(filter => filter.filterGroup === 'Muscle group');
+    const equipmentFilters = chosenFilters.find(filter => filter.filterGroup === 'Equipment');
+    return exercises.filter(exercise => {
+        return isFitsByEquipment(exercise, equipmentFilters as IFilter) && isFitsByMuscleGroup(exercise, muscleGroupFilters as IFilter)
+    })
+}
 export const filterExercises = async (chosenFilters: IFilter[]) => {
     try {
-        const exercises = await exercisesService.getExercises();
-        const muscleGroupFilters = chosenFilters.find(filter => filter.filterGroup === 'Muscle group');
-        const equipmentFilters = chosenFilters.find(filter => filter.filterGroup === 'Equipment');
-        return exercises.filter(exercise => {
-            return isFitsByEquipment(exercise, equipmentFilters as IFilter) && isFitsByMuscleGroup(exercise, muscleGroupFilters as IFilter)
-        })
+        if (process.env.REACT_APP_MODE === 'prod') {
+            return await getFilteredExercises(chosenFilters);
+        }
+        return await filterExercisesLocal(chosenFilters);
     } catch (err){
         console.error(err);
     }
