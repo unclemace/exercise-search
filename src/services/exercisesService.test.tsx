@@ -42,7 +42,7 @@ describe('exercises service', () => {
             }
         ]
 
-        const filteredExercises = await filterExercises(chosenFilters);
+        const filteredExercises = await filterExercises(chosenFilters, { rated: false });
         expect(filteredExercises).toEqual([
             {
                 name: 'Bench press',
@@ -70,7 +70,7 @@ describe('exercises service', () => {
                 values: ['legs']
             }
         ]
-        const filteredExercises = await filterExercises(chosenFilters);
+        const filteredExercises = await filterExercises(chosenFilters, {rated: false});
         expect(filteredExercises).toEqual([]);
     })
 
@@ -100,7 +100,7 @@ describe('exercises service', () => {
         ]
         jest.spyOn(exercisesModule, 'getExercises').mockResolvedValue(exercisesMock);
         const chosenFilters: IFilter[] = [];
-        const filteredExercises = await filterExercises(chosenFilters);
+        const filteredExercises = await filterExercises(chosenFilters, { rated:false });
         expect(filteredExercises).toEqual(exercisesMock);
     })
     test('filters exercises with no matched chosen filters', async () => {
@@ -136,7 +136,7 @@ describe('exercises service', () => {
             }
         ];
 
-        const filteredExercises = await filterExercises(chosenFilters);
+        const filteredExercises = await filterExercises(chosenFilters, { rated: false });
 
         expect(filteredExercises).toEqual([]);
     })
