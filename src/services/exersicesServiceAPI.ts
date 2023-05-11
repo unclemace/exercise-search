@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { IFilter } from '../types/types';
-import { exercisesMap } from "../utils/exercisesMap";
 
 
 export const getFilteredExercises = async (chosenFilters: IFilter[]) => {
@@ -10,7 +9,7 @@ export const getFilteredExercises = async (chosenFilters: IFilter[]) => {
                 chosenFilters: chosenFilters
             }
         });
-        return exercisesMap.toExercisesArray(data);
+        return data;
     } catch (er) {
         console.error(er);
     }
@@ -23,7 +22,7 @@ export const getFilteredExercisesV2 = async (chosenFilters: IFilter[]) => {
                 chosenFilters: chosenFilters
             }
         });
-        return exercisesMap.toRatedExercisesArray(data);
+        return data;
     } catch (er) {
         console.error(er);
     }

@@ -10,10 +10,6 @@ export interface IRatedExercise extends IExercise{
     rating: number
 }
 
-export interface IFilterParams {
-    rated?: boolean
-}
-
 export interface IFilter {
     values: string[];
     filterGroup: FilterGroup;

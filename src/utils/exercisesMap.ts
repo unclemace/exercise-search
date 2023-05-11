@@ -1,27 +1,27 @@
-import {IExercise, IRatedExercise} from "../types/types";
+import { IExercise } from "../types/types";
 
-export const exercisesMap = {
-    toExercise: (raw: any): IExercise => {
-        const { name, description, imageSrc, requiredEquipment, muscleGroup } = raw;
+export const exercisesMapV2 = {
+    toExerciseV2: <Type
+        extends {
+        name: string,
+        description: string,
+        image_src: string,
+        required_equipment: string,
+        muscle_group: {
+            name: string,
+            value: string
+        }[] }>
+    (raw: Type): IExercise => {
+        const { name, description, image_src, required_equipment, muscle_group } = raw;
         return {
-            name: name? name: '',
-            description: description? description: '',
-            imageSrc: imageSrc? imageSrc: '',
-            requiredEquipment: requiredEquipment? requiredEquipment: '',
-            muscleGroup: muscleGroup? muscleGroup: [],
+            name: name,
+            description: description,
+            imageSrc: image_src,
+            requiredEquipment: required_equipment,
+            muscleGroup: muscle_group.map((group) => group.value),
         }
     },
-    toExercisesArray: (arr: any[]): IExercise[] => {
-        return arr.map(element => exercisesMap.toExercise(element))
-    },
-    toRatedExercise: (raw: any): IRatedExercise => {
-        const exercise = exercisesMap.toExercise(raw);
-        return {
-            ...exercise,
-            rating: raw.rating? raw.rating: 0
-        }
-    },
-    toRatedExercisesArray: (arr: any[]): IExercise[] => {
-        return arr.map(element => exercisesMap.toRatedExercise(element))
-    },
+    toExercisesV2Array: (arr: any[]): IExercise[] => {
+        return arr.map(element => exercisesMapV2.toExerciseV2(element))
+    }
 }
