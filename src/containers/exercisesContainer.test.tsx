@@ -1,15 +1,14 @@
-import React from 'react';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
-import App from './App';
-import { renderWithProviders } from './utils/testUtils';
-import { setupStore } from './store/store';
+import React from 'react'
+import { act, fireEvent, screen } from '@testing-library/react'
 import { jest } from '@jest/globals';
-import * as exercisesService from './services/exercisesService';
+import { renderWithProviders } from '../utils/testUtils'
+import { ExercisesContainer } from './exercisesContainer'
+import * as exercisesService from '../services/exercisesService';
 
 
-describe('Exercise search', () => {
-    beforeEach(() => {
-        jest.spyOn(exercisesService, 'getExercises' ).mockResolvedValue([
+describe('exercises container', () => {
+    beforeEach( () => {
+        jest.spyOn(exercisesService, 'filterExercises' ).mockResolvedValue([
             {
                 name: 'Pull up',
                 description: 'A pull-up is an upper-body strength exercise. The pull-up is a closed-chain movement where the body is suspended by the hands, gripping a bar or other implement at a distance typically wider than shoulder-width, and pulled up. As this happens, the elbows flex and the shoulders adduct and extend to bring the elbows to the torso. Pull-ups build up several muscles of the upper body, including the latissimus dorsi, trapezius, and biceps brachii. A pull-up may be performed with overhand (pronated), underhand (supinated)—sometimes referred to as a chin-up—neutral, or rotating hand position. Pull-ups are used by some organizations as a component of fitness tests, and as a conditioning activity for some sports.',
@@ -26,25 +25,33 @@ describe('Exercise search', () => {
             },
         ]);
     })
-    test('Should apply chosen filters to exercises block', async () => {
-        const store = setupStore();
-        await renderWithProviders(<App/>, {store})
-        const filter = screen.getByText('body only');
-        const suitableExerciseBefore =  await screen.findByText('Push up');
-        const unsuitableExerciseBefore = await screen.findByText('Pull up');
 
-        expect(suitableExerciseBefore).toBeInTheDocument();
-        expect(unsuitableExerciseBefore).toBeInTheDocument();
+    test('renders exercises list',   async () => {
+        await act(async () => {
+            renderWithProviders(<ExercisesContainer/>);
+        })
 
-        fireEvent.click(filter);
+        const exercise1 = await screen.findByText('Pull up');
+        const exercise2 = await screen.findByText('Push up');
 
-        await waitFor(() => expect(screen.queryByText('Push up')).toBeInTheDocument())
-        await waitFor(() => expect(screen.queryByText('Pull up')).not.toBeInTheDocument())
+        expect(exercise1).toBeInTheDocument();
+        expect(exercise2).toBeInTheDocument();
+    })
 
-        const clearAllButton = screen.getByText('Clear all');
-        fireEvent.click(clearAllButton);
+    test('search through exercises', async () => {
+        await act(async () => {
+            renderWithProviders(<ExercisesContainer/>);
+        })
+        const searchBar =  screen.getByLabelText('searchbar-input');
+        const exerciseUnsuitable = await screen.findByText('Push up');
+        const exerciseSuitable = await screen.findByText('Pull up');
 
-        await waitFor(() => expect(screen.queryByText('Pull up')).toBeInTheDocument())
-        await waitFor(() => expect(screen.queryByText('Push up')).toBeInTheDocument())
-    });
-});
+        expect(exerciseUnsuitable).toBeInTheDocument();
+        expect(exerciseSuitable).toBeInTheDocument()
+
+        fireEvent.change(searchBar, {target: {value: 'Pul'}});
+
+        expect(exerciseUnsuitable).not.toBeInTheDocument();
+        expect(exerciseSuitable).toBeInTheDocument();
+    })
+})

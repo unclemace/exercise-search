@@ -1,0 +1,25 @@
+@import "../utils/variables";
+@import "../utils/mixins";
+
+.section-desktop {
+  @media (min-width: $laptop) {
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+  }
+}
+
+.filter {
+  @media (min-width: $laptop) {
+    @include flex-column;
+    height: 100%;
+    overflow: scroll;
+  }
+}
+
+.exercises {
+  @media (min-width: $laptop) {
+    @include flex-column;
+    height: 100%;
+  }
+}
